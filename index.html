@@ -1,14 +1,97 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <title>PECS Card Generator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        var saved = localStorage.getItem("pecs-theme");
+        if (saved === "dark" || saved === "light") {
+          document.documentElement.setAttribute("data-theme", saved);
+        }
+      })();
+    </script>
     <link
       href="https://fonts.googleapis.com/css2?family=Nunito:wght@400&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
+    <style>
+      .theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(63, 58, 52, 0.15);
+        background-color: var(--light-neutral);
+        color: var(--text-main);
+        font-family: "Nunito", sans-serif;
+        font-size: 13px;
+        cursor: pointer;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .theme-toggle:hover {
+        border-color: var(--soft-blue);
+      }
+
+      .theme-toggle__icon {
+        font-size: 16px;
+        line-height: 1;
+      }
+
+      [data-theme="light"] .theme-toggle__icon--dark,
+      [data-theme="dark"] .theme-toggle__icon--light {
+        display: none;
+      }
+
+      [data-theme="dark"] {
+        --page-bg: #2a2622;
+        --text-main: #f0ebe3;
+        --light-neutral: #3a3530;
+        --soft-blue: #7a9ab5;
+        --sage-green: #7a9475;
+      }
+
+      [data-theme="dark"] .app-subtitle,
+      [data-theme="dark"] .hint {
+        color: rgba(240, 235, 227, 0.75);
+      }
+
+      [data-theme="dark"] .controls,
+      [data-theme="dark"] .preview-section {
+        border-color: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      }
+
+      [data-theme="dark"] input[type="text"],
+      [data-theme="dark"] select,
+      [data-theme="dark"] input[type="file"] {
+        background-color: #2f2a26;
+        border-color: rgba(255, 255, 255, 0.12);
+        color: var(--text-main);
+      }
+
+      [data-theme="dark"] .secondary-button {
+        background-color: #4a443d;
+        color: var(--text-main);
+      }
+
+      [data-theme="dark"] .secondary-button:hover {
+        background-color: #565048;
+      }
+
+      [data-theme="dark"] .card-preview-container {
+        background-color: #1f1c19;
+      }
+
+      [data-theme="dark"] .theme-toggle {
+        border-color: rgba(255, 255, 255, 0.12);
+      }
+    </style>
   </head>
   <body>
     <div class="app">
@@ -19,6 +102,16 @@
             Одноэкранное приложение для создания PECS / AAC карточки и экспорта в PNG.
           </p>
         </div>
+        <button
+          type="button"
+          id="themeToggle"
+          class="theme-toggle"
+          aria-label="Переключить светлую и тёмную тему"
+        >
+          <span class="theme-toggle__icon theme-toggle__icon--light" aria-hidden="true">☀</span>
+          <span class="theme-toggle__icon theme-toggle__icon--dark" aria-hidden="true">☾</span>
+          <span id="themeToggleLabel">Тёмная тема</span>
+        </button>
       </header>
 
       <main class="app-main">
@@ -132,6 +225,32 @@
       </main>
     </div>
 
+    <script>
+      (function () {
+        var themeToggle = document.getElementById("themeToggle");
+        var themeToggleLabel = document.getElementById("themeToggleLabel");
+        var root = document.documentElement;
+
+        function updateThemeLabel() {
+          var isDark = root.getAttribute("data-theme") === "dark";
+          themeToggleLabel.textContent = isDark ? "Светлая тема" : "Тёмная тема";
+          themeToggle.setAttribute(
+            "aria-label",
+            isDark ? "Включить светлую тему" : "Включить тёмную тему"
+          );
+        }
+
+        themeToggle.addEventListener("click", function () {
+          var nextTheme =
+            root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+          root.setAttribute("data-theme", nextTheme);
+          localStorage.setItem("pecs-theme", nextTheme);
+          updateThemeLabel();
+        });
+
+        updateThemeLabel();
+      })();
+    </script>
     <script src="script.js"></script>
   </body>
 </html>
