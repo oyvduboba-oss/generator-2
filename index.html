@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>PECS Card Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="app-header">
+        <div>
+          <h1>PECS Card Generator</h1>
+          <p class="app-subtitle">
+            Одноэкранное приложение для создания PECS / AAC карточки и экспорта в PNG.
+          </p>
+        </div>
+      </header>
+
+      <main class="app-main">
+        <section class="controls">
+          <h2 class="section-title">Настройки карточки</h2>
+
+          <div class="control-group">
+            <label for="imageInput">Изображение</label>
+            <input
+              id="imageInput"
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+            />
+            <p class="hint">Форматы: JPG, PNG, WEBP.</p>
+          </div>
+
+          <div class="control-group">
+            <label for="captionInput">Подпись (до 30 символов)</label>
+            <input
+              id="captionInput"
+              type="text"
+              maxlength="30"
+              placeholder="Введите слово или короткую фразу"
+            />
+          </div>
+
+          <div class="control-row">
+            <div class="control-group">
+              <label for="languageSelect">Язык подписи</label>
+              <select id="languageSelect">
+                <option value="en">English</option>
+                <option value="de">Deutsch</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+                <option value="ru">Русский</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <label for="sizeSelect">Размер карточки</label>
+              <select id="sizeSelect">
+                <option value="medium">Medium — 600×600</option>
+                <option value="small">Small — 450×450</option>
+                <option value="large">Large — 900×900</option>
+                <option value="class">Class — 1200×1200</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label for="styleSelect">Визуальный стиль</label>
+            <select id="styleSelect">
+              <option value="montessori">Premium Montessori</option>
+              <option value="photo">Photorealism</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="labelPositionSelect">Расположение надписи</label>
+            <select id="labelPositionSelect">
+              <option value="auto">Автоматически по стилю</option>
+              <option value="none">Без надписи</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="aacCategorySelect">Категория AAC</label>
+            <select id="aacCategorySelect">
+              <option value="nouns">Nouns / Существительные</option>
+              <option value="verbs">Verbs / Действия</option>
+              <option value="describing">Describing words / Описательные</option>
+              <option value="people">People &amp; Pronouns / Люди</option>
+              <option value="social">Social words / Социальные</option>
+              <option value="misc">Miscellaneous / Прочее</option>
+            </select>
+          </div>
+
+          <div class="control-group control-actions">
+            <button id="exportButton" class="primary-button">Export PNG</button>
+            <button id="resetButton" class="secondary-button">Reset</button>
+          </div>
+
+          <p id="errorMessage" class="error-message" aria-live="polite"></p>
+        </section>
+
+        <section class="preview-section">
+          <h2 class="section-title">Live preview</h2>
+
+          <div class="preview-wrapper">
+            <div class="card-preview-container">
+              <div id="cardPreview" class="card card--medium card--montessori">
+                <div class="card-inner">
+                  <div class="card-image-wrapper">
+                    <div id="imagePlaceholder" class="card-image-placeholder">
+                      Upload image
+                    </div>
+                    <img id="cardImage" class="card-image" alt="" />
+                  </div>
+                  <div id="cardLabelArea" class="card-label-area card-label-area--top">
+                    <span id="cardLabelText" class="card-label-text"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="hint">
+            Preview должен максимально точно соответствовать тому, что попадёт в PNG.
+          </p>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+
